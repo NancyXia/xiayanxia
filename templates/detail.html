@@ -1,0 +1,113 @@
+$def with (ret)
+<html> 
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
+<!--meta http-equiv = "X-UA-Compatible" content = "IE=edge,chrome=1" /-->
+<title >问题反馈详细信息</title> 
+<link rel="stylesheet" type="text/css" href="../static/css/main.css">
+<script type="text/javascript" src="../static/script/jquery-1.4.4.min.js"></script>
+<style type="text/css">
+.test_box {
+    width: 600px; 
+    min-height:50px; 
+    max-height: 300px;
+    _height: 120px; 
+    margin-left: auto; 
+    margin-right: auto; 
+    padding: 3px; 
+    outline: 0; 
+    border: 1px solid #a0b3d6; 
+    font-size: 12px; 
+    word-wrap: break-word;
+    overflow-x: hidden;
+    overflow-y: auto;
+    _overflow-y: visible;
+	text-align:left;
+}
+ #add{
+    width: 600px;
+    margin-left: auto; 
+    margin-right: auto; 
+   text-align:left;
+   }
+ #mes{
+    width: 600px;
+    margin-left: auto; 
+    margin-right: auto; 
+   text-align:left;
+   }
+
+</style>
+<script type="text/javascript">
+function detectBrowser(){  //检测浏览器
+	    var browser=navigator.appName;        
+		if(browser=="Microsoft Internet Explorer"){			
+			alert('请您切换到极速模式打开该网站，暂时不兼容IE内核。');
+		}        
+}
+function alertData(){
+   var com=document.getElementById('add').getAttribute('value');
+   var ss="";
+   var comlist = new Array();
+   if(com.length>0){
+   comlist=com.split("**");
+   for(var i=0;i<comlist.length;i++){    
+        
+        comlist[i]=comlist[i]+"\r\n";
+        ss+=comlist[i];
+       
+    }   
+  return ss;
+   }
+}
+jQuery(document).ready(function(){   
+     detectBrowser();
+     if(document.getElementById('add').getAttribute('value').length>0){
+     document.getElementById('add').innerText=alertData();
+	
+     }
+	
+    
+
+});
+
+
+function checkSubmit(){
+   var comment=jQuery(".test_box")[0].innerText;
+   if(comment.length>0){
+     jQuery("#comment").val(comment);
+     
+
+   }
+}
+</script>
+</head> 
+<body>
+<!--div class="page-wrap" style="margin-top:20px;text-align:center;"-->
+    <h1><center><span style="font-size:20;">问题反馈详细信息</span></center></h1>
+	 <form method="post" enctype="multipart/form-data" action="/detail" margin-left:auto;margin-right:auto;padding-bottom:20px;" onsubmit="return checkSubmit();">
+           <input type="hidden" name="$ret[0][0]"/>
+           <input type="hidden" id="comment" name="comment"/>
+           <div id="mes">
+          <p>问题反馈简要描述：$ret[0][1]</p>
+		  <p id='feedes'>问题反馈详细描述：<br>$ret[0][2]</p> 
+          <p>问题反馈提交时间：$ret[0][13]</p>
+		  <p>影&nbsp;&nbsp;&nbsp;响&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;范&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;围：$ret[0][3]</p>
+		  <p>解&nbsp;&nbsp;&nbsp;决&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态：$ret[0][5]</p>
+		  <p>问&nbsp;&nbsp;&nbsp;题&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型：$ret[0][8]</p>
+		  <p>累&nbsp;计&nbsp;反&nbsp;&nbsp;馈&nbsp;个&nbsp;数：$ret[0][9]</p>
+		  <p>备&nbsp;&nbsp;&nbsp;注&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;说&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;明：$ret[0][10]</p>
+		  <p>是&nbsp;否&nbsp;为&nbsp;重要反馈：$ret[0][12]</p>
+		  			  
+          <strong>详细信息：</strong><br>
+          </div>
+           <div id="add"  value="$ret[0][17]"></div>
+           <div class="test_box" name="tex" contenteditable="true"><br/></div> 
+           <p style="text-align:center;"><input type="submit" value="添加评论"/><p>          
+     <form>
+    <!--/div-->
+      <div align="center" style="margin-top:280px;text-align:center">
+		<a href="../task">问题反馈进度列表</a>          
+	</div>
+</body> 
+</html>

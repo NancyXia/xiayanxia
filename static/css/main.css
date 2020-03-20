@@ -1,0 +1,113 @@
+﻿*{
+    font-family:"微软雅黑","黑体","宋体";
+    font-size:14px;
+}
+h1{
+    font-size:16px;
+    margin-top:15px;
+} 
+a { 
+color: #c75f3e; 
+}  
+.page-wrap {
+    display: block;
+    _height: 98%;
+    min-height: 98%;
+    position: relative;
+}
+.footer {
+    bottom: 0;
+    left: 0;
+    line-height: 24px;
+    min-width: 100px;
+    padding: 6px 0;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+}
+.footer,.footer a{
+    color: #666;
+}
+th { 
+    font-size:14px;
+    font-weight:bold;
+    font-family: 微软雅黑, Trebuchet MS, Verdana, sans-serif; 
+    border-right: 1px solid #C1DAD7; 
+    border-bottom: 1px solid #C1DAD7; 
+    border-top: 1px solid #C1DAD7; 
+    letter-spacing: 2px; 
+    text-align: center; 
+    padding: 6px 6px 6px 12px; 
+    background-color: #FF9933;
+    background: -webkit-linear-gradient(top,#EFF5FF 0,#E0ECFF 100%);
+    background: -moz-linear-gradient(top,#EFF5FF 0,#E0ECFF 100%);
+    background: -o-linear-gradient(top,#EFF5FF 0,#E0ECFF 100%);
+    background: linear-gradient(to bottom,#EFF5FF 0,#E0ECFF 100%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#EFF5FF,endColorstr=#E0ECFF,GradientType=0);
+} 
+td { 
+    border-right: 1px solid #C1DAD7; 
+    border-bottom: 1px solid #C1DAD7; 
+    background: #fff; 
+    font-size:11px; 
+    padding: 6px 6px 6px 12px; 
+    color: #4f6b72; 
+}
+ol{
+  list-style: none;
+}
+ul, li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.stepbar{
+    overflow: hidden;
+    text-align:center;
+}
+.stepbar .tb-stepbar {
+  /*position: absolute;
+  right: 0;
+  top: 40px;*/
+}
+.stepbar .tb-stepbar li.stepbar-first {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+.stepbar .tb-stepbar li.stepbar-current {
+  background-color: #F60;
+  color: #fff;
+}
+.stepbar .tb-stepbar li.stepbar-last {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  background-image: none;
+}
+.stepbar .tb-stepbar li.step-4 {
+  width: 188px;
+}
+.stepbar .tb-stepbar li {
+  width: 158px;
+  height: 23px;
+  font-size: 14px;
+  position: relative;
+  /*float: left;*/
+  margin-left: -5px;
+  display:inline-block;
+  background: #e4e4e4 url("../images/allpic.png") no-repeat 100% -1040px;
+  color: #404040;
+  font-weight: 700;
+  box-sizing: border-box;
+  padding-right: 15px;
+  text-align: center;
+}
+.stepbar .tb-stepbar li span {
+  display: block;
+  height: 23px;
+  line-height: 23px;
+}
+.stepbar .tb-stepbar li span a {
+    color:#404040;
+    text-decoration: initial;
+}

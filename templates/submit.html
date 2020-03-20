@@ -1,0 +1,286 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" charset="utf-8"/>
+    <meta http-equiv = "X-UA-Compatible" content = "IE=edge,chrome=1" />
+    <title>问题反馈提交平台</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/icon.css">
+    <script type="text/javascript" src="../static/script/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="../static/script/jquery.easyui.min.js"></script>
+  <style>  
+    table.A {width:550px; font-size: 10pt;font-family:"微软雅黑"}
+    td{        
+        font-size: 10pt;
+        vertical-align: middle;
+        word-break: break-all; 
+        word-wrap: break-word; 
+        padding-bottom: 6px; 
+        padding-left: 10px; 
+        padding-right: 4px;        
+        height:20px;
+        line-height:20px;
+		background-color:#B0E2FF;
+    }
+    tr.A td{
+	    width:200px;
+        height:24px;
+        line-height:24px;		
+    }
+    td.B{
+        width:100px;
+        text-align:left;		
+    }
+    select{
+        background-color:#FFFFCC;
+    }
+    input[type="text"],input[type="date"]{
+        width:400px;
+        background-color:#FFFFCC;       
+    }
+	div[contenteditable="true"]{
+	   width:400px;
+        background-color:#FFFFCC; 
+	
+	}
+	#a{    
+    border-top-left-radius: 10px;    
+	width:200px;	
+	} 
+	#re{	
+	border-top-right-radius: 10px;    
+	width:400px;
+	}
+	#sefe{
+	border-bottom-right-radius: 10px;    
+	width:400px;
+	}
+	#fe{
+	border-bottom-left-radius: 10px;    
+	width:400px;
+	}        
+   </style>
+ <script>
+ 
+  function getPageHeight() {　　　　
+    if (document.compatMode == "BackCompat") {　　　　　　
+        return Math.max(document.body.scrollHeight, document.body.clientHeight);　　　　
+    } else {　　　　　　
+        return Math.max(document.documentElement.scrollHeight, document.documentElement.clientHeight);　　　　
+    }　　
+}
+
+ function detectBrowser() { //检测浏览器
+    var browser = navigator.appName;
+    if (browser == "Microsoft Internet Explorer") {
+        alert('请您切换到极速模式打开该网站，暂时不兼容IE内核。');
+    }
+}
+ function setHiddenInputValue(id){ 
+    var divid=id+"Div";   
+    var v=jQuery.trim(document.getElementById(divid).innerText);
+    document.getElementById(id).value=v;
+ }
+ function loaddata(){
+     setHiddenInputValue('request');
+	 setHiddenInputValue('feedbackde');
+	 setHiddenInputValue('descr'); 
+ }
+ 
+jQuery(document).ready(function() {
+    detectBrowser();
+	loaddata();
+	
+
+    });   
+
+function stopError(obj){
+	var subdetail;
+    if(obj instanceof jQuery){
+        subdetail=obj;
+    }else{
+        subdetail=jQuery(obj);
+    }
+	subdetail.removeClass("focuserror");
+}
+function setError(ele,unfocus){ 
+	var obj;           
+    if(ele instanceof jQuery){
+        obj=ele;
+    }else{
+        obj=jQuery(ele);
+    }
+    if(unfocus){
+    }else{
+        obj.focus();   
+    }    
+	obj.addClass("focuserror");
+	//setTimeout("stopError(ele)",4000);
+    setTimeout(function(){stopError(obj);},1000);    
+}
+
+function checkSubmit() {
+    loaddata();   
+   var tttt=jQuery.trim(jQuery("#request").val());
+        if(!tttt){            
+            setError(jQuery("#request"));
+            alert("问题反馈简要描述，不能为空！");
+            return false;
+        }
+	  if(document.getElementById('status').value=='可复现'){
+	  var bugid=jQuery.trim(jQuery("#bugid").val());
+        if(!bugid){            
+            setError(jQuery("#bugid"));
+            alert("bug号不能为空！");
+            return false;
+        }		
+      }
+	  
+}
+  </script>
+</head>
+
+<body>
+     <div class="page-wrap" style="margin-top:50px;text-align:center;">
+        <h1><center><span style="font-size:20">问题反馈提交平台</span></center></h1> <br>       
+            
+            <form id="myform" method="post" enctype="multipart/form-data" action="/submit" style="width:500px;margin-left:auto;margin-right:auto;padding-bottom:10px;" onsubmit="return checkSubmit();">
+            <table class="A" align="center" cellspacing="0">
+                <tr class=A>
+                    <td class="B" id='a'  style="width:200px">
+                        <B>问题反馈简要描述</B>
+                    </td>
+                    <td id='re' style="width:200px">
+                         <div   contenteditable="true" name='requestDiv' id="requestDiv"></div>
+                          <input type="hidden" name="request" id="request"/>				
+		              </div>                       
+                    </td>
+                </tr>
+                <tr class=A>
+                    <td class="B">
+                        <B>问题反馈详细描述</B>
+                    </td>
+                    <td>
+					  <div   contenteditable="true" name='feedbackdeDiv' id="feedbackdeDiv"></div>
+                          <input type="hidden" name="feedbackde" id="feedbackde"/>				
+		              </div>
+					   
+                    </td>
+                </tr>
+				<tr class=A>
+                    <td class="B">
+                        <B>影响范围</B>
+                    </td>
+                    <td>
+					 <input type="text" id='scope' name='scope'/> 
+					   
+                    </td>
+                </tr>
+			   <tr class=A>
+                    <td class="B">
+                        <B> Bug号</B>
+                    </td>
+                    <td>
+					 <input onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" type="text" id='bugid' name='bugid' style='width:100px'/>					   
+                    </td>
+              </tr>
+			  <tr class=A>
+                    <td class="B">
+                        <B> 解决状态</B>
+                    </td>
+                    <td>
+					 <select id='status' name='status'>
+						<option value='可复现'>可复现</option>
+						<option value='不可复现'>不可复现</option>
+					 </select>
+					   
+                    </td>
+              </tr>
+			   <tr class=A>
+                    <td class="B">
+                        <B> 问题类型</B>
+                    </td>
+                    <td>
+					 <select id='type' name='type'>
+						<option value='功能'>功能</option>
+						<option value='性能'>性能</option>
+						<option value='需求'>需求</option>
+						<option value='兼容性'>兼容性</option>
+					 </select>
+					   
+                    </td>
+              </tr>
+			  <tr class=A>
+                    <td class="B">
+                        <B>累计反馈个数</B>
+                    </td>
+                    <td>					
+					<input onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" type='text' style="width:60px" id='feedcount' name='feedcount'/>							   
+                    </td>
+              </tr>
+			  <tr class=A>
+                    <td class="B">
+                        <B>备注说明</B>
+                    </td>
+                    <td>					
+						<div   contenteditable="true" name='descrDiv' id="descrDiv"></div>
+                          <input type="hidden" name="descr" id="descr"/>				
+		              </div>						   
+                    </td>
+              </tr>
+               
+              <tr class=A>
+                    <td class="B">
+                        <B>QA负责人</B>
+                    </td>
+                    <td>    
+                      <SELECT id="qa" name="qa" style="margin-top:8px;font-weight:normal;width:100px">
+                        <option value="yujun">余俊</option>                        
+                        <option value="hanjiangli">韩江丽</option>
+                        <option value="zhangxiaocai">张晓彩</option>
+                        <option value="wanghongxia">王红侠</option>
+						<option value="yangfengxia">杨凤侠</option>
+						<option value="lvchen">吕晨</option>
+						<option value="zhouweiwei">周伟伟</option>
+						<option value="dongyue">董玥</option>
+						<option value="zhaoli-b">赵利</option>
+						<option value="daili">代丽</option>
+						<option value="yuman">于嫚</option>
+						<option value="wangmin-b">王敏</option>
+						<option value="zhangjing-b">张静</option>
+						<option value="changdongjun">昌东军</option>
+						<option value="tanglei">唐磊</option>
+						<option value="liwanfei">李婉霏</option>
+						<option value="liling-b">李玲</option>
+						<option value="chenjie-pd">陈杰</option>	                
+        </SELECT><br>     
+                    </td>
+                </tr>				 
+				 <tr class=A>
+                    <td id='fe' class="B">
+                        <strong>是否为重要反馈</strong>
+                    </td>
+                    <td id='sefe'>
+                        <SELECT id="priority" name="priority">
+							<option value="否">否</option> 
+                            <option value="是">是</option>
+                                                      
+                        </SELECT>                       
+                    </td>
+                </tr>     
+             
+            </table>
+			<p align="center" style="margin-top:30px;">
+			    <input type='submit' value='提&nbsp;&nbsp交' style="background:#339966"/>
+			</p>
+        </form>
+		<div align="center" style="margin-top:10px;">
+			<a href="../task">问题反馈进度列表</a>                    
+		</div>
+        <div id="dialog" style="display:none;padding:2px;text-align:left;max-width:350px;">
+            <div id="p1"></div>
+        </div>
+	      
+    </div>
+</body>
+

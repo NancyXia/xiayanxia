@@ -1,0 +1,275 @@
+$def with (ret)
+<html> 
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
+<!--meta http-equiv = "X-UA-Compatible" content = "IE=edge,chrome=1" /-->
+<title >问题反馈进度列表</title> 
+<link rel="stylesheet" type="text/css" href="../static/css/main.css">
+<script type="text/javascript" src="../static/script/jquery-1.4.4.min.js"></script>
+<style type="text/css">
+
+input[type="text"]{
+  border:none;
+} 
+th{
+border-bottom:0px;
+padding-right:0px;
+}
+</style>
+<script type="text/javascript">
+
+ 
+var obj,j;
+var page=0;
+var nowPage=0;//当前页
+var listNum=7;//每页显示<ul>数
+var PagesLen;//总页数
+var PageNum=4;//分页链接接数(5个)
+jQuery(document).ready(function(){
+    detectBrowser();
+	var reasonvalue=document.getElementById('re').getAttribute('value');
+	document.getElementById('reasonDiv').innerText= reasonvalue;
+	var versionvalue=document.getElementById('ve').getAttribute('value');
+	document.getElementById('versionDiv').innerText= versionvalue;
+	loadData();
+	//分页
+	   obj=jQuery(".fenye");
+	   j=jQuery(".fenye").length;
+	   PagesLen=Math.ceil(j/listNum);
+       upPage(0)
+       
+ 
+});
+function upPage(p){
+nowPage=p
+//内容变换
+for (var i=0;i<j;i++){
+   obj[i].style.display="none";
+}
+for (var i=p*listNum;i<(p+1)*listNum;i++){
+  if(obj[i])
+     obj[i].style.display="table-row";
+}
+strS='<a href="###" onclick="upPage(0)">首页</a>  '
+var PageNum_2=PageNum%2==0?Math.ceil(PageNum/2)+1:Math.ceil(PageNum/2)
+var PageNum_3=PageNum%2==0?Math.ceil(PageNum/2):Math.ceil(PageNum/2)+1
+var strC="",startPage,endPage;
+if (PageNum>=PagesLen) {startPage=0;endPage=PagesLen-1}
+else if (nowPage<PageNum_2){startPage=0;endPage=PagesLen-1>PageNum?PageNum:PagesLen-1}//首页
+else {startPage=nowPage+PageNum_3>=PagesLen?PagesLen-PageNum-1: nowPage-PageNum_2+1;var t=startPage+PageNum;endPage=t>PagesLen?PagesLen-1:t}
+for (var i=startPage;i<=endPage;i++){
+ if (i==nowPage)strC+='<a href="###" style="color:red;font-weight:700;" onclick="upPage('+i+')">'+(i+1)+'</a> '
+ else strC+='<a href="###" onclick="upPage('+i+')">'+(i+1)+'</a> '
+}
+strE=' <a href="###" onclick="upPage('+(PagesLen-1)+')">尾页</a>  '
+strE2=nowPage+1+"/"+PagesLen+"页"+"  共"+j+"条"
+document.getElementById("changpage").innerHTML=strS+strC+strE+strE2
+}
+  
+function detectBrowser(){  //检测浏览器
+	    var browser=navigator.appName;        
+		if(browser=="Microsoft Internet Explorer"){			
+			alert('请您切换到极速模式打开该网站，暂时不兼容IE内核。');
+		}        
+}
+function alertSelect(classname,attribute){
+     var stlist=document.getElementsByClassName(classname);
+    for(var j=0;j<stlist.length;j++)
+		{
+		   var ss=document.getElementsByClassName(classname)[j].children;
+		   for(var i=0;i<ss.length;i++)
+			  {
+			   if(ss[i].value==stlist[j].getAttribute(attribute))
+			      ss[i].setAttribute("selected","selected")
+			  }			  
+	    }
+}
+function loadData(){
+  alertSelect("notice","notice");
+  alertSelect("bugs","bugs");
+  alertSelect("bugr","bugr");
+
+}
+function myselect(){    
+    var s="";    
+	var requestname=jQuery("#requestname").val();
+	if(requestname){
+	 s=s+"&requestname="+requestname;
+	}
+    var qa=jQuery("#qa").val();
+    if(qa ){	    
+        s=s+"&qa="+qa;
+    }
+	 
+	var important=jQuery("#important").val();
+    if(important){
+        s=s+"&important="+important;
+    }
+    var feedbackdate=jQuery("#feedbackdate").val();
+    if(feedbackdate){
+        s=s+"&feedbackdate="+feedbackdate;
+    }	
+ 
+    var url="../task?"+s;    
+    location.href=url;
+}
+
+
+function checksubmit(){     
+	
+    var array = [];
+    var arrid='';
+	
+	var status="";
+	var notice="";
+	var packageversion="";
+	var reason="";
+	var qa='';
+	
+    array =jQuery('td input[type="checkbox"]:checked'); 
+	if(array.length==0){
+        alert("必须选择待更新数据的首行的checkbox！");
+        return false;
+    }else if(array.length>1){
+	   alert("每次只支持选择一个待更新数据的首行的checkbox！");
+        return false;
+	
+	}
+    for(var i=0;i<array.length;i++)
+     {  
+       jQuery("#"+array[i].id).attr("disabled",true);
+	   
+       arrid=arrid+array[i].id+";";
+     }
+	status=jQuery('td input[type="checkbox"]:checked').parent().nextAll()[2].children[0].value;
+    resoluton=jQuery('td input[type="checkbox"]:checked').parent().nextAll()[3].children[0].value;
+	notice=jQuery('td input[type="checkbox"]:checked').parent().nextAll()[4].children[0].value;
+	packageversion=jQuery('td input[type="checkbox"]:checked').parent().nextAll()[5].children[0].innerText;
+	reason=jQuery('td input[type="checkbox"]:checked').parent().nextAll()[6].children[0].innerText;
+	qa=jQuery('td input[type="checkbox"]:checked').parent().nextAll()[7].children[0].value;    
+  
+	arrid=arrid+'status='+status+';resoluton='+resoluton+';notice='+notice+";packageversion="+packageversion+";reason="+reason+";qa="+qa;
+    jQuery("#applylist").val(arrid);
+    jQuery("#submit").attr("disabled",true);
+    alert("数据更新完毕！");
+    return true;
+  }
+</script>
+</head> 
+<body>
+<div class="page-wrap" style="margin-top:20px;text-align:center;">
+    <h1><center><span style="font-size:20;">问题反馈进度列表</span></center></h1>
+	
+    <div align="center" style="margin-top:20px;">            
+            问题反馈关键词:&nbsp;<input type="text" id="requestname"  style="width:140px" />
+            &nbsp;&nbsp;&nbsp;&nbsp;QA负责人:&nbsp; 
+		  <select  id="qa"  style="width:60px">
+			<option value=""></option>
+		    <option value="yujun">余俊</option>                        
+            <option value="hanjiangli">韩江丽</option>
+            <option value="zhangxiaocai">张晓彩</option>
+            <option value="wanghongxia">王红侠</option>
+			<option value="yangfengxia">杨凤侠</option>
+			<option value="lvchen">吕晨</option>
+			<option value="zhouweiwei">周伟伟</option>
+			<option value="dongyue">董玥</option>
+			<option value="zhaoli-b">赵利</option>
+			<option value="daili">代丽</option>
+			<option value="yuman">于嫚</option>
+			<option value="wangmin-b">王敏</option>
+			<option value="zhangjing-b">张静</option>
+			<option value="changdongjun">昌东军</option>
+			<option value="tanglei">唐磊</option>
+			<option value="liwanfei">李婉霏</option>
+			<option value="liling-b">李玲</option>
+			<option value="chenjie-pd">陈杰</option>	
+         </select> &nbsp;&nbsp;         
+			&nbsp;&nbsp;&nbsp;&nbsp;是否为重要反馈:&nbsp;
+			<select  id="important"  style="width:70px">
+				 <option value=""></opton>				 
+				 <option value="是">是</opton>
+				 <option value="否">否</opton>				
+			</select>&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;反馈时间:<input type="date" id="feedbackdate" style="width:140px"/>
+            <input type="button" value="筛选" onclick="myselect()"/>         
+     </div>    
+	<form method="post" enctype="multipart/form-data" action="/task" style="width:1890px;margin-left:auto;margin-right:auto;padding-bottom:50px;"onsubmit="return checksubmit();">
+		<input type="hidden" name="applylist" id="applylist"/> 
+        <table cellspacing="0" style="align:center;width:1790px;margin-top:20px;margin-left:0;margin-right:auto;border:1px solid #C1DAD7;text-align:center;"> 
+           <tr>
+              <th colspan=13 class="firstRow">
+				   <div style="float:right;padding-right:30px;">             
+                    <input style='text-align:right' type="submit" value="更新数据" id="submit"/>
+				   </div>                
+              </th>
+           </tr>		
+           <tr>
+                <th  scope="col" style="width:70px;" >序号</th>
+				<th  scope="col" style="width:70px;">选择</th>
+                <th scope="col" style="width:450px;">问题反馈简要描述</th>
+                <th scope="col" style="width:80px;">bug号</th>
+                <th scope="col" style="width:110px;">bug状态</th> 
+                <th scope="col" style="width:100px;">bug解决</th>                 
+                <th scope="col" style="width:100px;">邮件回复周知</th>
+				<th scope="col" style="width:100px;">随包版本号</th>
+				<th scope="col" style="width:500px;">问题原因</th>
+				<th scope="col" style="width:210px;">QA负责人</th>
+								
+            </tr>      
+      
+            $for i in range(len(ret)):
+                <tr class="fenye">
+                    <td class="row">$(i+1)</td>	
+					<td class="row"><input type="checkbox" id="$ret[i][0]" /></td>
+                    <td class="row"><a href="../detail?$ret[i][0]" >$ret[i][1]</a></td>
+                    <td class="row">$(ret[i][4])</td>
+					<td class="row"> <select  id="bugs" class="bugs"  bugs="$(ret[i][6])" style="width:115px">
+                    <option value="  "></option>
+                    <option value="Unconfirmed">Unconfirmed</option>
+                    <option value="New">New</option>
+                    <option value="Assigned">Assigned</option>
+                    <option value="Reopened">Reopened</option>
+                    <option value="Resolved">Resolved</option>
+                    <option value="Revified">Revified</option>
+                    <option value="Closed">Closed</option>                    
+                    </select>
+                    </td>
+                    <td><select  id="bugr"  bugr="$(ret[i][7])" class="bugr" style="width:100px">
+                     <option value="  "></option>
+                    <option value="Fixed">Fixed</option>
+                    <option value="Invalid">Invalid</option>
+                    <option value="Wontfix">Wontfix</option>
+                    <option value="Duplicate">Duplicate</option>
+                    <option value="Worksforme">Worksforme</option>
+                    <option value="Later">Later</option> 
+                    <option value="Nextversion">Nextversion</option>                     
+                    </td>
+                    <td class="row">
+					  <select id="notice" notice="$(ret[i][14])" class="notice" verify="" style="width:70px" />
+					  <option value=""></option>
+					  <option value="pass">pass</option>
+					  <option value="fail">fail</option>						
+					</td>                
+                    <td id="ve" value="$(ret[i][16])" class="row">
+					 	<div   contenteditable="true" name='versionDiv' id="versionDiv">$(ret[i][16])</div>
+                         <input type="hidden" name="version" id="version"/> 				
+					</td>
+					 <td class="row" id="re" value="$(ret[i][15])">
+					 	 <div   contenteditable="true" name='reasonDiv' id="reasonDiv">$(ret[i][15])</div>
+                         <input type="hidden" name="reason" id="reason"/> 				
+					</td>	
+					<td class="row">   
+                      <input type="text" value="$ret[i][11]" style="width:210px"/>
+                     </td>	
+							
+                </tr>     
+	       </table>
+		  
+	 </form> 
+      <div id="changpage"></div>
+     <div align="center" style="margin-top:130px;text-align:center">
+		<a href="../submit">问题反馈提交平台</a>          
+	</div>
+  </div>
+</body> 
+</html>
