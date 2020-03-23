@@ -1,12 +1,8 @@
 #!/usr/bin/env python
 # coding:utf-8
 import pymysql
-#MYSQL_HOST='10.24.76.182'
-#MYSQL_USER='tree'
-#MYSQL_PWD='tree'
-#MYSQL_DB='game_tree'
-#MYSQL_PORT=5002
-def createConn(MYSQL_HOST='10.24.76.182',MYSQL_USER='tree',MYSQL_PWD='tree',MYSQL_DB='game_tree',MYSQL_PORT=5002):
+
+def createConn(MYSQL_HOST='10.124.76.182',MYSQL_USER='tree',MYSQL_PWD='tree',MYSQL_DB='game_tree',MYSQL_PORT=7002):
     try:
         return pymysql.connect(
                            host=MYSQL_HOST,
